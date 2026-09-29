@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.laba12.MainActivity">
+ы
+    <item
+        android:id="@+id/action_settings"
+        android:title="О программе"
+        app:showAsAction="never" />
+</menu>
