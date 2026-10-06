@@ -13,17 +13,16 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_second)
-        val textView = findViewById<TextView>(R.id.textView3)
-        textView.text = intent.getStringExtra("text2remember")
+        // SecondActivity
+        val nameView = findViewById<TextView>(R.id.textView6)
+        nameView.text = intent.getStringExtra("name")
+
+        val groupView = findViewById<TextView>(R.id.textView3)
+        groupView.text = intent.getStringExtra("group")
         val button = findViewById<Button>(R.id.button2)
         button.setOnClickListener {
-            finish() // завершает SecondActivity, фокус возвращается к MainActivity
+            finish()
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 }

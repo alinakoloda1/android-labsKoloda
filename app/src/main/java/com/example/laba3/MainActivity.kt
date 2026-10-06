@@ -13,18 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val editText = findViewById<EditText>(R.id.editTextText)
+        // MainActivity
+        val nameField = findViewById<EditText>(R.id.editTextText)
+        val groupField = findViewById<EditText>(R.id.editTextText2)
         val button = findViewById<Button>(R.id.button)
+
         button.setOnClickListener {
             val intent = Intent(this@MainActivity, SecondActivity::class.java)
-            intent.putExtra("text2remember", editText.text.toString())
+            intent.putExtra("name", nameField.text.toString())
+            intent.putExtra("group", groupField.text.toString())
             startActivity(intent)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 }
