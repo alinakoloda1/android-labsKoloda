@@ -5,6 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.app.AlertDialog
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,13 +27,32 @@ class MainActivity : AppCompatActivity() {
                 Configuration.SCREENLAYOUT_SIZE_MASK
 
         val columns = when {
-            screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE -> 3  // планшет
-            orientation == Configuration.ORIENTATION_LANDSCAPE -> 2   // телефон горизонтально
-            else -> 1                                                  // телефон вертикально
+            screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE -> 3
+            orientation == Configuration.ORIENTATION_LANDSCAPE -> 2
+            else -> 1
         }
 
         recyclerView.layoutManager = GridLayoutManager(this, columns)
-        recyclerView.adapter = CustomRecyclerAdapter(this, images)
+        recyclerView.adapter = CustomRecyclerAdapter(this, images) { image ->
+            showImageDialog(image)
+        }
+    }
+
+    private fun showImageDialog(image: Image) {
+        val dialogView = LayoutInflater.from(this)
+            .inflate(R.layout.dialog_item, null)
+
+        val dialogImage = dialogView.findViewById<ImageView>(R.id.dialogImage)
+        val dialogText = dialogView.findViewById<TextView>(R.id.dialogText)
+
+        dialogImage.setImageResource(image.imageRes)
+        dialogText.text = image.name
+
+        AlertDialog.Builder(this)
+            .setTitle("Просмотр изображения")
+            .setView(dialogView)
+            .setPositiveButton("OK", null)
+            .show()
     }
 
     private fun setData() {
