@@ -2,10 +2,15 @@ package com.example.laba10
 
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,8 +22,10 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val buttonExit = findViewById<Button>(R.id.buttonExit)
+        val textView = findViewById<TextView>(R.id.text1)
+        registerForContextMenu(textView)
 
+        val buttonExit = findViewById<Button>(R.id.buttonExit)
         buttonExit.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
             dialog.setMessage("Вы действительно хотите выйти?")
@@ -32,12 +39,26 @@ class MainActivity : AppCompatActivity() {
             val alertDialog = dialog.create()
             alertDialog.show()
         }
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.contextmenu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        val textView = findViewById<TextView>(R.id.text1)
+        if (id == R.id.color_blue) {
+            textView.setTextColor(Color.parseColor("blue"))
         }
+        if (id == R.id.color_green) {
+            textView.setTextColor(Color.parseColor("green"))
+        }
+        return super.onContextItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,6 +88,17 @@ class MainActivity : AppCompatActivity() {
             dialog.setIcon(R.mipmap.ic_launcher_round)
             val alertDialog = dialog.create()
             alertDialog.show()
+            return true
+        }
+        if (id == R.id.show_text) {
+            val textView = findViewById<TextView>(R.id.text1)
+            if (item.isChecked) {
+                textView.visibility = View.VISIBLE
+                item.isChecked = false
+            } else {
+                textView.visibility = View.INVISIBLE
+                item.isChecked = true
+            }
             return true
         }
 
